@@ -1,6 +1,6 @@
 .gradle/
 .settings/
-/output/
+/output*/
 /build
 /bin
 .project
