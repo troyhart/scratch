@@ -1,4 +1,4 @@
-prop1: $prop1
+prop1: $prop1 -- for some reason expansion doesn't seem to occur unless the curly braces are used.
 
 prop2: ${prop2}
 
