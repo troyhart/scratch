@@ -1,0 +1,31 @@
+import org.apache.tools.ant.filters.ExpandProperties
+
+task antcopy(group: 'ant') {//, type: Copy
+  description 'copy with ant\'s ExpandProperties filter. Reads \'ant.properties\' ' +
+              'and then recursively copies everything from \'templates/\' to \'output/\''
+}
+antcopy.doFirst {
+  // Important! this task is not of the Copy type. Copy type tasks don't work
+  // for the property expansion types of copying tasks like this one since the
+  // input outputs won't appear to change from the gradle task's perspective...
+  // Below, I'm using the project's copy() method which doesn't do the up-to-date
+  // checks and so works great for this case.
+  copy {
+    def props = new Properties() 
+    new File('ant.properties').withInputStream { 
+      stream -> props.load(stream) 
+    } 
+    props.each() { k, v -> 
+      println "---> ${k} --> ${v}" 
+      ant.properties[k] = v 
+    } 
+    from 'templates'
+    into 'output' 
+  
+    filter(ExpandProperties, project: ant.project) 
+  }
+}
+
+task clean {
+  ant.delete(dir: 'output')
+}
