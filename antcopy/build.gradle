@@ -20,17 +20,18 @@ antcopy.doFirst {
   // checks and so works great for this case.
   copy {
     from 'templates'
-    into 'output'
+    into 'output.temp'
     filter(ExpandProperties, project: ant.project) 
   }
   // second copy to pick up properties embedded in properties
   copy {
-    from 'output'
-    into 'output2'
+    from 'output.temp'
+    into 'output'
     filter(ExpandProperties, project: ant.project) 
   }
 }
 
 task clean {
   ant.delete(dir: 'output')
+  ant.delete(dir: 'output.temp')
 }
