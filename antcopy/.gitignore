@@ -1,2 +1,7 @@
 .gradle/
+.settings/
 /output/
+/build
+/bin
+.project
+.classpath
